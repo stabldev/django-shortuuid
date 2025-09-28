@@ -5,8 +5,19 @@ description = "A modern, Django model field for generating short, unique, URL-sa
 readme = "README.md"
 authors = [{ name = "stabldev", email = "thestabldev@gmail.com" }]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "django>=5.2.6",
+    "shortuuid>=1.0.13",
+]
 
 [build-system]
 requires = ["uv_build>=0.8.20,<0.9.0"]
 build-backend = "uv_build"
+
+[tool.pyright]
+reportMissingTypeStubs = "none"
+reportAny = "none"
+reportExplicitAny = "none"
+reportUnknownMemberType = "none"
+reportUnknownVariableType = "none"
+reportUnknownParameterType = "none"
