@@ -1,11 +1,9 @@
 [project]
 name = "django-shortuuid"
 version = "0.1.0"
-description = "Add your description here"
+description = "A modern, Django model field for generating short, unique, URL-safe UUIDs using the shortuuid lib."
 readme = "README.md"
-authors = [
-    { name = "stabldev", email = "114811070+stabldev@users.noreply.github.com" }
-]
+authors = [{ name = "stabldev", email = "thestabldev@gmail.com" }]
 requires-python = ">=3.13"
 dependencies = []
 
