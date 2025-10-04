@@ -1,6 +1,6 @@
 [project]
 name = "django-shortuuid"
-version = "0.1.1"
+version = "0.1.2"
 description = "A modern, Django model field for generating short, unique, URL-safe UUIDs using the shortuuid lib."
 readme = "README.md"
 license = { text = "MIT" }
