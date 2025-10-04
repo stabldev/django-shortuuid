@@ -1,7 +1,7 @@
-import shortuuid
 from typing import Any, cast, override
 from django.db import models
 from django.core.exceptions import ValidationError
+import shortuuid
 
 
 class ShortUUIDField(models.CharField):
@@ -33,18 +33,18 @@ class ShortUUIDField(models.CharField):
 
         super().__init__(*args, **kwargs)
 
-    def _generate_uuid(self) -> str:
+    def _generate_shortuuid(self):
         """Generate a short UUID string using configured alphabet and prefix."""
         su = shortuuid.ShortUUID(alphabet=self.alphabet)
         return self.prefix + su.random(length=self.length)
 
-    def generate_unique_uuid(self, model_instance: Any) -> str:
+    def generate_unique_shortuuid(self, model_instance: Any) -> str:
         """Generate unique UUID checking DB for collisions."""
         if not self.collision_check:
-            return self._generate_uuid()
+            return self._generate_shortuuid()
 
         for _ in range(self.max_retries):
-            value = self._generate_uuid()
+            value = self._generate_shortuuid()
             if not model_instance.__class__.objects.filter(
                 **{cast(str, self.attname): value}
             ).exists():
@@ -58,7 +58,7 @@ class ShortUUIDField(models.CharField):
         value = super().pre_save(model_instance, add)
 
         if self.auto and (value is None or value == ""):
-            value = self.generate_unique_uuid(model_instance)
+            value = self.generate_unique_shortuuid(model_instance)
             setattr(model_instance, cast(str, self.attname), value)
         return value
 
@@ -73,10 +73,3 @@ class ShortUUIDField(models.CharField):
         kwargs["collision_check"] = self.collision_check
         kwargs["alphabet"] = self.alphabet
         return name, path, args, kwargs
-
-    @override
-    def formfield(self, **kwargs: Any) -> Any:
-        form_field = super().formfield(**kwargs)
-        if form_field:
-            form_field.disabled = True
-        return form_field
